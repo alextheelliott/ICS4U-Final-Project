@@ -1,9 +1,9 @@
 # Bookmark Manager
 
-## TODO: (☐/☑)
-☐ Create Objects for bookmarks
-☐ Create data saving/loading
-☐ Add ability to scrape bookmark title from the internet
+## TODO:
+- Create Objects for bookmarks
+- Create data saving/loading
+- Add ability to scrape bookmark title from the internet
 
 ## Data Structure
 - Our data will be stored in json files 
