@@ -2,29 +2,26 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import static application.Constants.DataConstants.*;
 
-public class Url {
+public class Bookmark implements Comparable<Bookmark>{
     private String url;
     private String topic;
     private String title;
 
-    public static ArrayList<Url> loadCSV() {
+    public static ArrayList<Bookmark> loadCSV() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
-            ArrayList<Url> list = new ArrayList<Url>();
+            ArrayList<Bookmark> list = new ArrayList<Bookmark>();
             String line = br.readLine();
             while (line != null) {
                 String[] data = line.split(",");
                 if (data.length == 3) {
-                    Url url = new Url(data[0], data[1], data[2]);
+                    Bookmark url = new Bookmark(data[0], data[1], data[2]);
                     list.add(url);
                 }
                 line = br.readLine();
@@ -33,17 +30,16 @@ public class Url {
             System.out.println(list);
             return list;
         } catch (Exception e) {
-            return new ArrayList<Url>();
+            return new ArrayList<Bookmark>();
         }
 
     }
 
-    public static void saveCSV(ArrayList<Url> list) {
+    public static void saveCSV(ArrayList<Bookmark> list) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE));
             for (int i = 0; i < list.size(); i++) {
-                bw.write(list.get(i).getUrl() + "," + list.get(i).getTopic() + "," + list.get(i).getTitle()
-                        + "\n");
+                bw.write(list.get(i).getUrl() + "," + list.get(i).getTopic() + "," + list.get(i).getTitle() + "\n");
             }
             bw.flush();
             bw.close();
@@ -53,16 +49,29 @@ public class Url {
     }
 
     // Getters
-    private String getTitle() {
+    public String getTitle() {
         return this.title;
     }
 
-    private String getTopic() {
+    public String getTopic() {
         return this.topic;
     }
 
-    private String getUrl() {
+    public String getUrl() {
         return this.url;
+    }
+
+    // Setters
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     // Overridden methods
@@ -72,19 +81,18 @@ public class Url {
                 + "\"]";
     }
 
-    /*@Override
-    public int compareTo(Object url)
-        //TODO: Compare To method for sorting
-    }*/
+     @Override public int compareTo(Bookmark url) {
+         return this.getTitle().compareTo(url.getTitle());
+     }
 
     // Constructors
-    public Url(String url) {
+    public Bookmark(String url) {
         this.url = url;
         this.topic = "";
         this.title = url;
     }
 
-    public Url(String url, String topic, String title) {
+    public Bookmark(String url, String topic, String title) {
         this.url = url;
         this.topic = topic;
         this.title = title == "" ? url : title;
