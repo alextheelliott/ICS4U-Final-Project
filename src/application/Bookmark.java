@@ -5,10 +5,12 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import static application.Constants.DataConstants.*;
 
-public class Bookmark implements Comparable<Bookmark>{
+public class Bookmark implements Comparable<Bookmark> {
     private String url;
     private String topic;
     private String title;
@@ -32,7 +34,26 @@ public class Bookmark implements Comparable<Bookmark>{
         } catch (Exception e) {
             return new ArrayList<Bookmark>();
         }
+    }
 
+    public static ArrayList<ArrayList<Bookmark>> getBookmarks() {
+        ArrayList<Bookmark> list = loadCSV();
+        ArrayList<ArrayList<Bookmark>> finalList = new ArrayList<ArrayList<Bookmark>>();
+        System.out.println(list);
+        insSort(list);
+        System.out.println(list);
+        HashMap<String, ArrayList<Bookmark>> topics = new HashMap<String, ArrayList<Bookmark>>();
+
+        for (Bookmark i : list) {
+            if (topics.containsKey(i.getTopic()))
+                topics.put(i.getTopic(), new ArrayList<Bookmark>());
+            topics.get(i.getTopic()).add(i);
+        }
+
+        for (ArrayList<Bookmark> i : topics.values()) {
+            finalList.add(i);
+        }
+        return finalList;
     }
 
     public static void saveCSV(ArrayList<Bookmark> list) {
@@ -45,6 +66,17 @@ public class Bookmark implements Comparable<Bookmark>{
             bw.close();
         } catch (Exception e) {
             return;
+        }
+    }
+
+    public static void insSort(ArrayList<Bookmark> arr) {
+        for (int i = 1; i < arr.size(); i++) {
+            while (arr.get(i).compareTo(arr.get(i - 1)) < 0) {
+                Bookmark temp = arr.get(i);
+                arr.set(i, arr.get(i - 1));
+                arr.set(i - 1, temp);
+                i--;
+            }
         }
     }
 
@@ -81,9 +113,10 @@ public class Bookmark implements Comparable<Bookmark>{
                 + "\"]";
     }
 
-     @Override public int compareTo(Bookmark url) {
-         return this.getTitle().compareTo(url.getTitle());
-     }
+    @Override
+    public int compareTo(Bookmark url) {
+        return this.getTitle().compareTo(url.getTitle());
+    }
 
     // Constructors
     public Bookmark(String url) {
