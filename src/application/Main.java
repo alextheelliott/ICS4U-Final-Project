@@ -32,10 +32,15 @@ public class Main extends Application {
 		scene = new Scene(root,800,600);
 		stage = primaryStage;
 		
+		/* Creates a coloured rectangle for the background of the scene */
 		Rectangle background = new Rectangle(scene.getWidth(), scene.getHeight()); // Width, height
 		background.setFill(Color.web("#3246a8"));
 		root.getChildren().add(background);
 		
+		/* 
+			JavaFX work to create the menu buttons: The dropdown, the new bookmark button, and the help button. 
+			adds the last two buttons to a Vbox so it can be hidden and shown with the dropdown button.
+		*/
 		VBox menuBar = new VBox();
 		menuBar.setMinWidth(0.0);
 		menuBar.setPrefWidth(MENU_BUTTON_SIZE);
@@ -47,6 +52,7 @@ public class Main extends Application {
 		HBox menuNewSite = new HBox();
 		menuNewSite.setPrefWidth(MENU_BUTTON_SIZE + MENU_TEXT_FIELD_WIDTH);
 		menuNewSite.setPrefHeight(MENU_BUTTON_SIZE);
+		//Creates the object for the New Bookmark Scene and to get there
 		MenuButton menuNewSiteButton = new MenuButton(
 				MENU_BUTTON_SIZE, 
 				0.0, 0.0, 
@@ -58,6 +64,7 @@ public class Main extends Application {
 		HBox menuHelp = new HBox();
 		menuHelp.setPrefWidth(MENU_BUTTON_SIZE + MENU_TEXT_FIELD_WIDTH);
 		menuHelp.setPrefHeight(MENU_BUTTON_SIZE);
+		//Creates the object for the Help Scene and how to get to the scene
 		HelpButton menuHelpButton = new HelpButton(
 				MENU_BUTTON_SIZE, 
 				0.0, 0.0, 
@@ -66,6 +73,7 @@ public class Main extends Application {
 			);
 		menuHelp.getChildren().add( menuHelpButton.getNode() );
 		
+		/* Adds all the buttons to the Vbox */
 		menuBar.getChildren().addAll(
 				menuNewSite,
 				menuHelp
@@ -81,15 +89,18 @@ public class Main extends Application {
 			);
 		root.getChildren().add(menuDropdownButton.getNode());
 		
-		FillTransition ft = new FillTransition(Duration.seconds(5), background, Color.web("#3246a8"), Color.web("#74248f"));
+		/* Creates a transition to slowly pulse the background colour */
+		FillTransition ft = new FillTransition(Duration.seconds(7), background, Color.web("#3246a8"), Color.web("#74248f"));
 		ft.setCycleCount(4);
 		ft.setAutoReverse(true);
 		ft.play();
 		
+		/* Sets scene to default scene */
 //		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 		
+		/* The animation timer constantly makes sure that the background is the size of the scene. (Changing the fill of the scene caused issues.) */
 		new AnimationTimer() {
 			@Override
 			public void handle(long now) {

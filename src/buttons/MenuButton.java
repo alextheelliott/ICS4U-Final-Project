@@ -2,8 +2,7 @@ package buttons;
 
 import java.util.ArrayList;
 
-import javax.security.auth.callback.TextInputCallback;
-
+import application.Bookmark;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -87,6 +86,10 @@ public class MenuButton extends Buttons {
 				}
 			}
 			if(canSubmit) {
+				Bookmark bm = new Bookmark(textFields.get(2).getText(), textFields.get(0).getText(), textFields.get(1).getText());
+				ArrayList<Bookmark> bookmarks = Bookmark.loadCSV();
+				bookmarks.add(bm);
+				Bookmark.saveCSV(bookmarks);
 				resetFields(textFields);
 				application.Main.stage.setScene(application.Main.scene);
 			}

@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 
 public abstract class Buttons {
 
+	/* Enum to decide how to change the image for the button: Hover dependent or state dependent (for dropdown). */
 	public enum ImageCondition {
 		HOVERDEPENDENT, STATEDEPENDENT
 	}
@@ -14,6 +15,7 @@ public abstract class Buttons {
 	private Image passive;
 	private Image hover;
 	
+	/* Constructors (One with static image, other one with dynamic image) */
 	public Buttons(double wid, double posX, double posY, Image ip) {
 		passive = ip;
 		
@@ -32,6 +34,8 @@ public abstract class Buttons {
 		image = new ImageView(passive);
 		image.setPreserveRatio(true);
 		image.setFitWidth(wid);
+
+		//Uses the enum to decide which image should be shown on certain events
 		if(ic == ImageCondition.HOVERDEPENDENT) {
 			image.setOnMouseClicked(event -> { action(); });
 			image.setOnMouseEntered(event -> { image.setImage(hover); });
@@ -43,6 +47,7 @@ public abstract class Buttons {
 		this.setLocation(posX, posY);
 	}
 	
+	/* Method to make setting the position a single method call */
 	public void setLocation(double x, double y) {
 		image.setLayoutX(x);
 		image.setLayoutY(y);
@@ -52,12 +57,15 @@ public abstract class Buttons {
 		return image;
 	}
 	
+	/* Sets the image based on the state of the object which the behaviour of which is created in the child. */
 	public void setImage() {
 		image.setImage((getState()) ? passive : hover);
 	}
 	
+	/* Let's the child set the behaviour of the button action. (click) */
 	public abstract void action();
 	
+	/* Let's the child set the behaviour of the state of the object. */
 	public abstract boolean getState();
 	
 }
