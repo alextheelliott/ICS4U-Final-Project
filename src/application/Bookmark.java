@@ -39,13 +39,11 @@ public class Bookmark implements Comparable<Bookmark> {
     public static ArrayList<ArrayList<Bookmark>> getBookmarks() {
         ArrayList<Bookmark> list = loadCSV();
         ArrayList<ArrayList<Bookmark>> finalList = new ArrayList<ArrayList<Bookmark>>();
-        System.out.println(list);
         insSort(list);
-        System.out.println(list);
         HashMap<String, ArrayList<Bookmark>> topics = new HashMap<String, ArrayList<Bookmark>>();
 
         for (Bookmark i : list) {
-            if (topics.containsKey(i.getTopic()))
+            if (!topics.containsKey(i.getTopic()))
                 topics.put(i.getTopic(), new ArrayList<Bookmark>());
             topics.get(i.getTopic()).add(i);
         }
