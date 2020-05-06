@@ -8,6 +8,7 @@ public class DropdownButton extends Buttons {
 	private boolean state;
 	private Node child;
 	
+	/* Two constructors. One with a static image one with two images switching dynamically. */
 	public DropdownButton(double wid, double posX, double posY, Image ip, Node cld) {
 		super(wid, posX, posY, ip);
 		
@@ -35,12 +36,14 @@ public class DropdownButton extends Buttons {
 		child.setVisible(this.getState());
 	}
 
+	/* Adds functionality to use the state for whther it is dropped down or not. */
 	@Override
-	public void action() {
+	void action() {
 		state = !state;
 		child.setVisible(this.getState());
 	}
 
+	/* Returns a boolean for dropped or not. */
 	@Override
 	public boolean getState() {
 		return state;
