@@ -32,7 +32,7 @@ public class HelpButton extends Buttons {
 		Rectangle background = new Rectangle();
 		background.setWidth(500);
 		background.setHeight(500);
-		background.setFill(Color.web("#f23a3a"));
+		background.setFill(Color.web("#e03b22"));
 		helpRoot.getChildren().add(background);
 		
 		Text text = new Text();

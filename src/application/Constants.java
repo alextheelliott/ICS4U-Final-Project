@@ -1,6 +1,9 @@
 package application;
 
 public class Constants {
+	/*
+		Constants for the project.
+	*/
 	public static class DataConstants {
 		public static final String DATA_FILE             = "data.csv";
 	}
