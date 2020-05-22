@@ -1,12 +1,14 @@
 package buttons;
 
+import javax.swing.plaf.FontUIResource;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.text.*;
 
 public class HelpButton extends Buttons {
 
@@ -32,23 +34,43 @@ public class HelpButton extends Buttons {
 		Rectangle background = new Rectangle();
 		background.setWidth(500);
 		background.setHeight(500);
-		background.setFill(Color.web("#e03b22"));
+		background.setFill(Color.web("#81A1C1"));
 		helpRoot.getChildren().add(background);
-		
-		Text text = new Text();
-		text.setX(50);
-		text.setY(50);
-		text.setText("lmao");
-		helpRoot.getChildren().add(text);
-		
+
 		Button b = new Button();
-		b.setLayoutX(50);
-		b.setLayoutY(50);
-		b.setPrefSize(50, 50);
+		b.setLayoutX(0);
+		b.setLayoutY(0);
+		b.setPrefSize(30, 30);
+		b.setText("❌");
+		b.setStyle("-fx-text-fill: #2E3440");
 		b.setOnAction(event -> {
 			application.Main.stage.setScene(application.Main.scene);
 		});
 		helpRoot.getChildren().add(b);
+		
+		Text text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.BOLD, 30));
+		text.setX(100);
+		text.setY(50);
+		text.setText("gib ༼ つ ◕_◕ ༽つ help");
+		helpRoot.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
+		text.setX(20);
+		text.setY(100);
+		text.setText("Creating a bookmark");
+		helpRoot.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.LIGHT, 15));
+		text.setX(20);
+		text.setY(120);
+		text.setText("- Press the create button and enter the URL of the website\n"+
+					 "- You can also set the title and the topic, but these are not required");
+		helpRoot.getChildren().add(text);
+
+
 	}
 	
 	@Override
