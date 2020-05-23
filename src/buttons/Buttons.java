@@ -63,9 +63,12 @@ public abstract class Buttons {
 	}
 	
 	/* Let's the child set the behaviour of the button action. (click) */
-	public abstract void action();
+	abstract void action();
 	
-	/* Let's the child set the behaviour of the state of the object. */
+	/* 
+		Let's the child set the behaviour of the state of the object. The only child that needs this method 
+		is the dropdown tab but it is created abstractly here so we can use it in the parent constructor.
+	*/
 	public abstract boolean getState();
 	
 }
