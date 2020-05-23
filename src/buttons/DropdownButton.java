@@ -1,5 +1,7 @@
 package buttons;
 
+import static application.Constants.LayoutConstants.*;
+
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebView;
@@ -42,8 +44,9 @@ public class DropdownButton extends Buttons {
 	@Override
 	void action() {
 		state = !state;
+		//If the child is a WebView is shrinks the parent VBox so that it collapses properly
 		if(child.getClass() == WebView.class) {
-			((WebView) child).setMaxHeight(this.getState() ? 250.0 * (9.0/16.0) : 1.0);
+			((VBox) ((WebView) child).getParent()).setMaxHeight(this.getState() ? 250.0 * (9.0/16.0) + MENU_BUTTON_SIZE/3 : MENU_BUTTON_SIZE/3);
 		}
 		child.setVisible(this.getState());
 	}

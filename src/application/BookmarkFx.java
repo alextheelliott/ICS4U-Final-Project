@@ -28,7 +28,7 @@ public class BookmarkFx {
         vbox.setLayoutX(x);
         vbox.setLayoutY(y);
         vbox.setPrefWidth(250);
-        vbox.setPrefHeight(250 * (9.0/16.0));
+        vbox.setMaxHeight(MENU_BUTTON_SIZE/3);
         hbox = new HBox();
 
         WebView wv = new WebView();
