@@ -34,6 +34,7 @@ public class MenuButton extends Buttons {
 	/* Creates the behaviour to get to the new bookmark scene. */
 	@Override
 	void action() {
+		SceneFX.loadBookmarks();
 		application.Main.stage.setScene(createBMScene);
 	}
 

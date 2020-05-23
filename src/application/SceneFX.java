@@ -19,12 +19,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class SceneFX {
-    
+
+	private static Pane pane;
+
+	public static Text copied;
+
     public static void loadMainSceneFX(Pane r) {
+		pane = r;
+
         /* Creates a coloured rectangle for the background of the scene */
 		Rectangle background = new Rectangle(r.getWidth(), r.getHeight()); // Width, height
 		background.setFill(Color.web("#3246a8"));
@@ -84,19 +91,61 @@ public class SceneFX {
 		
 		/* Creates a transition to slowly pulse the background colour */
 		FillTransition ft = new FillTransition(Duration.seconds(7), background, Color.web("#3246a8"), Color.web("#74248f"));
-		ft.setCycleCount(4);
+		ft.setCycleCount(FillTransition.INDEFINITE);
 		ft.setAutoReverse(true);
         ft.play();
-        
+		
+		copied = new Text("URL Copied");
+		copied.setLayoutX((r.getWidth()/2.0) - 40.0);
+		copied.setLayoutY(20);
+		copied.setOpacity(0.0);
+		copied.setFont(Font.font(16));
+		copied.setFill(Color.WHITE);
+		r.getChildren().add(copied);
+
         /* The animation timer constantly makes sure that the background is the size of the scene. (Changing the fill of the scene caused issues.) */
 		new AnimationTimer() {
 			@Override
 			public void handle(long now) {
 				background.setWidth(r.getWidth() + 400);
 				background.setHeight(r.getHeight() + 400);
+				if(copied.getOpacity() > 0.0) {
+					copied.setLayoutX((r.getWidth()/2.0) - 40.0);
+					copied.setOpacity(copied.getOpacity() - 0.008);
+				}
 			}
 		}.start();
-    }
+
+		loadBookmarks();
+	}
+	
+	private static HBox hbox;
+
+	public static void loadBookmarks() {
+		int vboxNum = 0;
+
+		if(hbox != null) {
+			pane.getChildren().remove(hbox);
+		}
+		hbox = new HBox();
+		hbox.setLayoutX(100);
+		hbox.setLayoutY(50);
+		hbox.getChildren().add(new VBox());
+		pane.getChildren().add(hbox);
+
+		ArrayList<ArrayList<Bookmark>> bookmarks = Bookmark.getBookmarks();
+		
+		for(ArrayList<Bookmark> bookmarks2 : bookmarks)  {
+			for(Bookmark bookmark : bookmarks2) {
+				BookmarkFx bm = new BookmarkFx(bookmark, 50.0, 50.0);
+				if(((VBox) hbox.getChildren().get(vboxNum)).getChildren().size() >= 4) {
+					vboxNum++;
+					hbox.getChildren().add(new VBox());
+				}
+				((VBox) hbox.getChildren().get(vboxNum)).getChildren().add(bm.getNode());
+			}
+		}
+	}
 
     public static void loadNewBookmarkSceneFX(Pane r) {
 		Rectangle background = new Rectangle();
@@ -111,14 +160,20 @@ public class SceneFX {
 		texts.get(0).setText("Topic:");
 		texts.get(0).setX(30);
 		texts.get(0).setY(40);
+		texts.get(0).setFont(Font.font(16));
+		texts.get(0).setFill(Color.WHITE);
 
 		texts.get(1).setText("Title:");
 		texts.get(1).setX(30);
 		texts.get(1).setY(120);
+		texts.get(1).setFont(Font.font(16));
+		texts.get(1).setFill(Color.WHITE);
 
 		texts.get(2).setText("Website URL:*");
 		texts.get(2).setX(30);
 		texts.get(2).setY(200);
+		texts.get(2).setFont(Font.font(16));
+		texts.get(2).setFill(Color.WHITE);
 
 		ArrayList<TextField> textFields = new ArrayList<>();
 		for(int i = 0; i < 3; i++) { textFields.add(new TextField()); r.getChildren().add(textFields.get(i)); }
@@ -155,6 +210,7 @@ public class SceneFX {
 				bookmarks.add(bm);
 				Bookmark.saveCSV(bookmarks);
 				resetFields(textFields);
+				loadBookmarks();
 				application.Main.stage.setScene(application.Main.scene);
 			}
 		});

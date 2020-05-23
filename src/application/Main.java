@@ -21,7 +21,6 @@ public class Main extends Application {
 		SceneFX.loadMainSceneFX(root);
 
 		/* Sets scene to default scene */
-//		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage.setScene(scene);
 		stage.show();
 	}

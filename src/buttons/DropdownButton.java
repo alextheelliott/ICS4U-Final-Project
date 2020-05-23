@@ -2,6 +2,8 @@ package buttons;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.web.WebView;
+import javafx.scene.layout.VBox;
 
 public class DropdownButton extends Buttons {
 	
@@ -36,10 +38,13 @@ public class DropdownButton extends Buttons {
 		child.setVisible(this.getState());
 	}
 
-	/* Adds functionality to use the state for whther it is dropped down or not. */
+	/* Adds functionality to use the state for whether it is dropped down or not. */
 	@Override
 	void action() {
 		state = !state;
+		if(child.getClass() == WebView.class) {
+			((WebView) child).setMaxHeight(this.getState() ? 250.0 * (9.0/16.0) : 1.0);
+		}
 		child.setVisible(this.getState());
 	}
 

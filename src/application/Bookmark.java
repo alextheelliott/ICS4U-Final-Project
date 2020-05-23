@@ -29,7 +29,6 @@ public class Bookmark implements Comparable<Bookmark> {
                 line = br.readLine();
             }
             br.close();
-            System.out.println(list);
             return list;
         } catch (Exception e) {
             return new ArrayList<Bookmark>();
