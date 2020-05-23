@@ -138,7 +138,7 @@ public class SceneFX {
 		for(ArrayList<Bookmark> bookmarks2 : bookmarks)  {
 			for(Bookmark bookmark : bookmarks2) {
 				BookmarkFx bm = new BookmarkFx(bookmark, 50.0, 50.0);
-				if(((VBox) hbox.getChildren().get(vboxNum)).getChildren().size() >= 4) {
+				if(((VBox) hbox.getChildren().get(vboxNum)).getChildren().size() >= 8) {
 					vboxNum++;
 					hbox.getChildren().add(new VBox());
 				}
