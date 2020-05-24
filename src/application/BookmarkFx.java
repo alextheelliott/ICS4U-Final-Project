@@ -1,6 +1,7 @@
 package application;
 
 import buttons.Buttons.ImageCondition;
+import buttons.Buttons;
 import buttons.DropdownButton;
 
 import static application.Constants.LayoutConstants.*;
@@ -10,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -63,6 +65,18 @@ public class BookmarkFx {
             hbox,
             wv
         );
+
+		Button b = new Button();
+		b.setLayoutX(0);
+		b.setLayoutY(0);
+		b.setPrefSize(30, 30);
+		b.setText("❌");
+		b.setOnAction(event -> {
+            Bookmark.removeBookmark(bm);
+            SceneFX.loadBookmarks();
+        });
+        
+        vbox.getChildren().addAll(b);
     }
 
     public Node getNode() {
