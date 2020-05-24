@@ -142,15 +142,9 @@ public class Bookmark implements Comparable<Bookmark> {
     }
 
     // Constructors
-    public Bookmark(String url) {
-        this.url = url;
-        this.topic = "";
-        this.title = url;
-    }
-
     public Bookmark(String url, String topic, String title) {
         this.url = url;
         this.topic = topic;
-        this.title = title == "" ? url : title;
+        this.title = title;
     }
 }
