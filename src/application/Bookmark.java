@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import static application.Constants.DataConstants.*;
@@ -29,7 +28,6 @@ public class Bookmark implements Comparable<Bookmark> {
                 line = br.readLine();
             }
             br.close();
-            System.out.println(list);
             return list;
         } catch (Exception e) {
             return new ArrayList<Bookmark>();
