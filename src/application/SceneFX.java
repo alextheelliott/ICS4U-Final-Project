@@ -110,28 +110,37 @@ public class SceneFX {
 	private static HBox hbox;
 
 	public static void loadBookmarks() {
-		int vboxNum = 0;
-
 		if (hbox != null) {
 			pane.getChildren().remove(hbox);
 		}
 		hbox = new HBox();
 		hbox.setLayoutX(100);
 		hbox.setLayoutY(50);
+
 		hbox.getChildren().add(new VBox());
 		pane.getChildren().add(hbox);
 
 		ArrayList<ArrayList<Bookmark>> bookmarks = Bookmark.getBookmarks();
 
 		for (ArrayList<Bookmark> bookmarksByTopic : bookmarks) {
+			String topic = bookmarksByTopic.get(0).getTopic();
+			VBox vbox = new VBox();
+
+			Text t = new Text(topic);
+			t.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
+			t.setFill(Color.WHITE);
+			vbox.getChildren().add(t);
+
 			for (Bookmark bookmark : bookmarksByTopic) {
 				BookmarkFx bm = new BookmarkFx(bookmark, 50.0, 50.0);
-				if (((VBox) hbox.getChildren().get(vboxNum)).getChildren().size() >= 8) {
-					vboxNum++;
-					hbox.getChildren().add(new VBox());
-				}
-				((VBox) hbox.getChildren().get(vboxNum)).getChildren().add(bm.getNode());
+				/**
+				 * if (((VBox) vbox.getChildren().get(vboxNum)).getChildren().size() >= 8) {
+				 * vboxNum++; hbox.getChildren().add(new VBox()); }
+				 **/
+				// ((VBox) vbox.getChildren().get(vboxNum)).getChildren().add(bm.getNode());
+				vbox.getChildren().add(bm.getNode());
 			}
+			hbox.getChildren().add(vbox);
 		}
 	}
 
@@ -251,6 +260,7 @@ public class SceneFX {
 
 		Text text = new Text();
 		text.setFont(Font.font("Gibson", FontWeight.BOLD, 30));
+		text.setFill(Color.web("2E3440"));
 		text.setX(100);
 		text.setY(50);
 		text.setText("gib ༼ つ ◕_◕ ༽つ help");
@@ -258,6 +268,7 @@ public class SceneFX {
 
 		text = new Text();
 		text.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
+		text.setFill(Color.web("2E3440"));
 		text.setX(20);
 		text.setY(100);
 		text.setText("Creating a bookmark");
@@ -265,10 +276,44 @@ public class SceneFX {
 
 		text = new Text();
 		text.setFont(Font.font("Gibson", FontWeight.LIGHT, 15));
+		text.setFill(Color.web("2E3440"));
 		text.setX(20);
 		text.setY(120);
 		text.setText("- Press the create button and enter the URL of the website\n"
 				+ "- You can also set the title and the topic, but these are not required");
+		r.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
+		text.setFill(Color.web("2E3440"));
+		text.setX(20);
+		text.setY(180);
+		text.setText("Deleting a bookmark");
+		r.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.LIGHT, 15));
+		text.setFill(Color.web("2E3440"));
+		text.setX(20);
+		text.setY(200);
+		text.setText("- Press the X next to a bookmark to delete it");
+		r.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
+		text.setFill(Color.web("2E3440"));
+		text.setX(20);
+		text.setY(240);
+		text.setText("Opening a bookmark");
+		r.getChildren().add(text);
+
+		text = new Text();
+		text.setFont(Font.font("Gibson", FontWeight.LIGHT, 15));
+		text.setFill(Color.web("2E3440"));
+		text.setX(20);
+		text.setY(260);
+		text.setText("- Click on a bookmark to copy its URL\n"+
+					 "- You can also press the arrow next to it to see a preview");
 		r.getChildren().add(text);
 	}
 
