@@ -1,6 +1,7 @@
 package application;
 
 import buttons.Buttons.ImageCondition;
+import buttons.Buttons;
 import buttons.DropdownButton;
 
 import static application.Constants.LayoutConstants.*;
@@ -9,7 +10,9 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,7 @@ public class BookmarkFx {
 
     public BookmarkFx(Bookmark bm, double x, double y) {
         vbox = new VBox();
+        vbox.setPadding(new Insets(0,0,0,10));
         vbox.setLayoutX(x);
         vbox.setLayoutY(y);
         vbox.setPrefWidth(250);
@@ -36,7 +40,7 @@ public class BookmarkFx {
         wv.setZoom(0.25);
         wv.autosize();
 
-        Text t = new Text(bm.getTitle());
+        Text t = new Text(bm.getTitle()+"  ");
         //https://stackoverflow.com/questions/6710350/copying-text-to-the-clipboard-using-java
         t.setOnMouseClicked(event -> {
             StringSelection stringSelection = new StringSelection(wv.getEngine().getLocation());
@@ -59,10 +63,22 @@ public class BookmarkFx {
             t
         );
 
+		Button b = new Button();
+        b.setPrefSize(20, 20);
+        b.setText("❌");
+        b.setStyle("-fx-font-size: 6");
+		b.setOnAction(event -> {
+            Bookmark.removeBookmark(bm);
+            SceneFX.loadBookmarks();
+        });
+        
+        hbox.getChildren().addAll(b);
+
         vbox.getChildren().addAll(
             hbox,
             wv
         );
+
     }
 
     public Node getNode() {

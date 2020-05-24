@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static application.Constants.DataConstants.*;
@@ -13,26 +14,6 @@ public class Bookmark implements Comparable<Bookmark> {
     private String url;
     private String topic;
     private String title;
-
-    public static ArrayList<Bookmark> loadCSV() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
-            ArrayList<Bookmark> list = new ArrayList<Bookmark>();
-            String line = br.readLine();
-            while (line != null) {
-                String[] data = line.split(",");
-                if (data.length == 3) {
-                    Bookmark url = new Bookmark(data[0], data[1], data[2]);
-                    list.add(url);
-                }
-                line = br.readLine();
-            }
-            br.close();
-            return list;
-        } catch (Exception e) {
-            return new ArrayList<Bookmark>();
-        }
-    }
 
     public static ArrayList<ArrayList<Bookmark>> getBookmarks() {
         ArrayList<Bookmark> list = loadCSV();
@@ -52,6 +33,40 @@ public class Bookmark implements Comparable<Bookmark> {
         return finalList;
     }
 
+    public static void removeBookmark(Bookmark toRemove) {
+        ArrayList<Bookmark> bookmarks = loadCSV();
+        for (int i = 0; i < bookmarks.size(); i++) {
+            if (bookmarks.get(i).equals(toRemove)) {
+                bookmarks.remove(i);
+            }
+        }
+        saveCSV(bookmarks);
+    }
+
+    public static ArrayList<Bookmark> loadCSV() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(DATA_FILE));
+            ArrayList<Bookmark> list = new ArrayList<Bookmark>();
+            String line = br.readLine();
+            while (line != null) {
+                String[] data = line.split(",");
+                if (data.length == 3) {
+                    list.add(new Bookmark(data[0], data[1], data[2]));
+                } else if (data.length == 2) {
+                    list.add(new Bookmark(data[0], "", data[1]));
+                } else if (data.length == 1) {
+                    list.add(new Bookmark(data[0], "", data[0]));
+                    System.out.println(Arrays.toString(data));
+                }
+                line = br.readLine();
+            }
+            br.close();
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<Bookmark>();
+        }
+    }
+
     public static void saveCSV(ArrayList<Bookmark> list) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(DATA_FILE));
@@ -67,11 +82,12 @@ public class Bookmark implements Comparable<Bookmark> {
 
     public static void insSort(ArrayList<Bookmark> arr) {
         for (int i = 1; i < arr.size(); i++) {
-            while (arr.get(i).compareTo(arr.get(i - 1)) < 0) {
-                Bookmark temp = arr.get(i);
-                arr.set(i, arr.get(i - 1));
-                arr.set(i - 1, temp);
-                i--;
+            int j = i;
+            while (j > 0 && arr.get(j).compareTo(arr.get(j - 1)) < 0) {
+                Bookmark temp = arr.get(j);
+                arr.set(j, arr.get(j - 1));
+                arr.set(j - 1, temp);
+                j--;
             }
         }
     }
@@ -110,20 +126,25 @@ public class Bookmark implements Comparable<Bookmark> {
     }
 
     @Override
-    public int compareTo(Bookmark url) {
-        return this.getTitle().compareTo(url.getTitle());
+    public int compareTo(Bookmark bm) {
+        return this.getTitle().compareTo(bm.getTitle());
+    }
+
+    public boolean equals(Bookmark bm) {
+        if (!this.getTitle().equals(bm.getTitle())) {
+            return false;
+        } else if (!this.getTopic().equals(bm.getTopic())) {
+            return false;
+        } else if (!this.getUrl().equals(bm.getUrl())) {
+            return false;
+        }
+        return true;
     }
 
     // Constructors
-    public Bookmark(String url) {
-        this.url = url;
-        this.topic = "";
-        this.title = url;
-    }
-
     public Bookmark(String url, String topic, String title) {
         this.url = url;
         this.topic = topic;
-        this.title = title == "" ? url : title;
+        this.title = title;
     }
 }
