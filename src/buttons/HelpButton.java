@@ -4,9 +4,6 @@ import application.SceneFX;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.*;
 
 public class HelpButton extends Buttons {
 

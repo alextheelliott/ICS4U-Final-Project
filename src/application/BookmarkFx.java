@@ -1,7 +1,6 @@
 package application;
 
 import buttons.Buttons.ImageCondition;
-import buttons.Buttons;
 import buttons.DropdownButton;
 
 import static application.Constants.LayoutConstants.*;
