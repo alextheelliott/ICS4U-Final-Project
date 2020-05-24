@@ -83,7 +83,7 @@ public class Bookmark implements Comparable<Bookmark> {
     public static void insSort(ArrayList<Bookmark> arr) {
         for (int i = 1; i < arr.size(); i++) {
             int j = i;
-            while (arr.get(j).compareTo(arr.get(j - 1)) > 0 && j > 1) {
+            while (j > 0 && arr.get(j).compareTo(arr.get(j - 1)) < 0) {
                 Bookmark temp = arr.get(j);
                 arr.set(j, arr.get(j - 1));
                 arr.set(j - 1, temp);
