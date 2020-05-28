@@ -8,6 +8,7 @@ import buttons.MenuButton;
 import static application.Constants.LayoutConstants.*;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FillTransition;
@@ -80,6 +81,7 @@ public class SceneFX {
 		ft.setAutoReverse(true);
 		ft.play();
 
+		/* Text title to notify the user when a url is copied. */
 		copied = new Text("URL Copied");
 		copied.setLayoutX((r.getWidth() / 2.0) - 40.0);
 		copied.setLayoutY(20);
@@ -107,25 +109,41 @@ public class SceneFX {
 		loadBookmarks();
 	}
 
+	/*
+	 * Method to load all of the bookmarks on the default pane. Called when we traverse back to the main pane.
+	 */
 	private static HBox hbox;
-
+	private static double hboxTranslate = 0;
 	public static void loadBookmarks() {
+		/* 
+		 * If the hbox has already been created we should remove it from the pane to prevent errors and to stop it from rendering old material,
+		 * We then recreate it with the new bookmarks.
+		 */
 		if (hbox != null) {
 			pane.getChildren().remove(hbox);
 		}
 		hbox = new HBox();
 		hbox.setLayoutX(100);
-		hbox.setLayoutY(50);
+		hbox.setLayoutY(30);
+		/* Sets an event so that when you scroll you can move the hbox to view all the categories but stops you from scrolling off the page. */
+		hbox.setOnScroll(event -> {
+			hboxTranslate += event.getDeltaY() / 2.0;
+			hboxTranslate = Math.min(0.0, hboxTranslate);
+			hboxTranslate = Math.max(-(hbox.getWidth()-((VBox) hbox.getChildren().get(hbox.getChildren().size()-1)).getWidth()), hboxTranslate);
+			hbox.setTranslateX(hboxTranslate);
+		});
 
+		/* Adds to renderer. */
 		hbox.getChildren().add(new VBox());
 		pane.getChildren().add(hbox);
 
+		/* Adds all the bookmarks to a grid of vboxes and hboxes based on the topic (Sorted in Bookmark class). */
 		ArrayList<ArrayList<Bookmark>> bookmarks = Bookmark.getBookmarks();
-
 		for (ArrayList<Bookmark> bookmarksByTopic : bookmarks) {
 			String topic = bookmarksByTopic.get(0).getTopic();
 			VBox vbox = new VBox();
 
+			/* Title for the category. */
 			Text t = new Text(topic);
 			t.setFont(Font.font("Gibson", FontWeight.NORMAL, 25));
 			t.setFill(Color.WHITE);
@@ -133,17 +151,15 @@ public class SceneFX {
 
 			for (Bookmark bookmark : bookmarksByTopic) {
 				BookmarkFx bm = new BookmarkFx(bookmark, 50.0, 50.0);
-				/**
-				 * if (((VBox) vbox.getChildren().get(vboxNum)).getChildren().size() >= 8) {
-				 * vboxNum++; hbox.getChildren().add(new VBox()); }
-				 **/
-				// ((VBox) vbox.getChildren().get(vboxNum)).getChildren().add(bm.getNode());
 				vbox.getChildren().add(bm.getNode());
 			}
 			hbox.getChildren().add(vbox);
 		}
 	}
 
+	/*
+	 * Creates the scene for adding a new bookmark. Adds all the titles and stuff.
+	 */
 	public static void loadNewBookmarkSceneFX(Pane r) {
 		Rectangle background = new Rectangle();
 		background.setWidth(400);
@@ -204,12 +220,26 @@ public class SceneFX {
 		buttons.get(0).setLayoutX(30);
 		buttons.get(0).setLayoutY(280);
 
+		/* 
+		 * When you click add bookmark this block of code validates to make sure the required field (url) is filled properly. 
+		 * If it is valid than it adds a new bookmark to the csv file.
+		 */
 		buttons.get(0).setOnAction(event -> {
 			boolean canSubmit = true;
+			//Checks if field is empty
 			if (textFields.get(2).getText().replace(" ", "").equals("")) {
 				textFields.get(2).setPromptText("THIS NEEDS TO BE FILLED");
 				canSubmit = false;
 			}
+			// Checks if field is a valid url
+			// Source: https://youtu.be/0sn3nobe6YE
+			Pattern pattern = Pattern.compile("((http:\\/\\/|https:\\/\\/)?(www.)?(([a-zA-Z0-9-]){2,}\\.){1,4}([a-zA-Z]){2,6}(\\/([a-zA-Z-_\\/\\.0-9#:?=&;,]*)?)?)");
+			if (pattern.matcher(textFields.get(2).getText()).find()) {
+				textFields.get(2).setText("");
+				textFields.get(2).setPromptText("THIS NEEDS TO BE A VALID URL");
+				canSubmit = false;
+			}
+			// Submits the fields to the csv.
 			if (canSubmit) {
 				Bookmark bm = new Bookmark(textFields.get(2).getText(), textFields.get(0).getText(),
 						textFields.get(1).getText());
@@ -222,6 +252,7 @@ public class SceneFX {
 			}
 		});
 
+		/* Creates a button to get back to the main screen that also clears the textfields. */
 		buttons.get(1).setText("Cancel");
 		buttons.get(1).setPrefSize(150, 120);
 		buttons.get(1).setLayoutX(220);
@@ -233,6 +264,7 @@ public class SceneFX {
 		});
 	}
 
+	//Iterates through a list of text fields and clears their texts.
 	private static void resetFields(ArrayList<TextField> tfl) {
 		for (int i = 0; i < tfl.size(); i++) {
 			tfl.get(i).setText("");
@@ -240,6 +272,9 @@ public class SceneFX {
 		}
 	}
 
+	/* 
+	 * Creates a scene to instruct the users on how to use the program. No other functionality.
+	 */
 	public static void loadHelpSceneFX(Pane r) {
 		Rectangle background = new Rectangle();
 		background.setWidth(500);

@@ -1,5 +1,7 @@
 package application;
 
+import static application.Constants.LayoutConstants.*;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -14,7 +16,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		root = new Pane();
-		scene = new Scene(root,800,600);
+		scene = new Scene(root, STAGE_WIDTH, STAGE_HEIGHT);
 		stage = primaryStage;
 		
 		/* Creates the FX for the main scene (Application) */

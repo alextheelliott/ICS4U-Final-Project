@@ -21,10 +21,14 @@ import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 
 public class BookmarkFx {
-    
     private VBox vbox;
     private HBox hbox; 
 
+    /*
+     * Constructor the takes a bookmark object and the location for the object.
+     * Creats a hbox for the dropdown, title, and delete button then adds that 
+     * hbox to a vbox with the webview.
+     */
     public BookmarkFx(Bookmark bm, double x, double y) {
         vbox = new VBox();
         vbox.setPadding(new Insets(0,0,0,10));
@@ -40,7 +44,12 @@ public class BookmarkFx {
         wv.autosize();
 
         Text t = new Text(bm.getTitle()+"  ");
-        //https://stackoverflow.com/questions/6710350/copying-text-to-the-clipboard-using-java
+        /* 
+         * When clicked on the title the url is retrieved from the bookmark object and added
+         * to the users clipboard. The clipboard is gotten from toolkit. The copied text is
+         * also shown to notifty the user.
+         */
+        // https://stackoverflow.com/questions/6710350/copying-text-to-the-clipboard-using-java
         t.setOnMouseClicked(event -> {
             StringSelection stringSelection = new StringSelection(wv.getEngine().getLocation());
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -50,6 +59,17 @@ public class BookmarkFx {
         t.setFont(Font.font(16));
 		t.setFill(Color.WHITE);
 
+        // Creates a button to delete the bookmark from the csv.
+        Button b = new Button();
+        b.setPrefSize(20, 20);
+        b.setText("❌");
+        b.setStyle("-fx-font-size: 6");
+		b.setOnAction(event -> {
+            Bookmark.removeBookmark(bm);
+            SceneFX.loadBookmarks();
+        });
+
+        // Everything is added to the hbox...
         hbox.getChildren().addAll(
             new DropdownButton(
                 MENU_BUTTON_SIZE/3,
@@ -59,20 +79,11 @@ public class BookmarkFx {
                 ImageCondition.STATEDEPENDENT,
                 wv, false
             ).getNode(),
-            t
+            t,
+            b
         );
 
-		Button b = new Button();
-        b.setPrefSize(20, 20);
-        b.setText("❌");
-        b.setStyle("-fx-font-size: 6");
-		b.setOnAction(event -> {
-            Bookmark.removeBookmark(bm);
-            SceneFX.loadBookmarks();
-        });
-        
-        hbox.getChildren().addAll(b);
-
+        // then the vbox.
         vbox.getChildren().addAll(
             hbox,
             wv
@@ -80,6 +91,7 @@ public class BookmarkFx {
 
     }
 
+    //Return the vbox so the object can be rendered.
     public Node getNode() {
         return vbox;
     }
