@@ -226,6 +226,7 @@ public class SceneFX {
 		 */
 		buttons.get(0).setOnAction(event -> {
 			boolean canSubmit = true;
+			Pattern pattern = Pattern.compile("((http:\\/\\/|https:\\/\\/)?(www.)?(([a-zA-Z0-9-]){2,}\\.){1,4}([a-zA-Z]){2,6}(\\/([a-zA-Z-_\\/\\.0-9#:?=&;,]*)?)?)");
 			//Checks if field is empty
 			if (textFields.get(2).getText().replace(" ", "").equals("")) {
 				textFields.get(2).setPromptText("THIS NEEDS TO BE FILLED");
@@ -233,8 +234,7 @@ public class SceneFX {
 			}
 			// Checks if field is a valid url
 			// Source: https://youtu.be/0sn3nobe6YE
-			Pattern pattern = Pattern.compile("((http:\\/\\/|https:\\/\\/)?(www.)?(([a-zA-Z0-9-]){2,}\\.){1,4}([a-zA-Z]){2,6}(\\/([a-zA-Z-_\\/\\.0-9#:?=&;,]*)?)?)");
-			if (pattern.matcher(textFields.get(2).getText()).find()) {
+			else if (pattern.matcher(textFields.get(2).getText()).find()) {
 				textFields.get(2).setText("");
 				textFields.get(2).setPromptText("THIS NEEDS TO BE A VALID URL");
 				canSubmit = false;
