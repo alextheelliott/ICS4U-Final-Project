@@ -37,6 +37,39 @@ public class SceneFX {
 		background.setFill(Color.web("#3246a8"));
 		r.getChildren().add(background);
 
+		/* Creates a transition to slowly pulse the background colour */
+		FillTransition ft = new FillTransition(Duration.seconds(7), background, Color.web("#3246a8"),
+				Color.web("#74248f"));
+		ft.setCycleCount(FillTransition.INDEFINITE);
+		ft.setAutoReverse(true);
+		ft.play();
+
+		/* Text title to notify the user when a url is copied. */
+		copied = new Text("URL Copied");
+		copied.setLayoutX((r.getWidth() / 2.0) - 40.0);
+		copied.setLayoutY(20);
+		copied.setOpacity(0.0);
+		copied.setFont(Font.font(16));
+		copied.setFill(Color.WHITE);
+		r.getChildren().add(copied);
+
+		/*
+		 * The animation timer constantly makes sure that the background is the size of
+		 * the scene. (Changing the fill of the scene caused issues.)
+		 */
+		new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				background.setWidth(r.getWidth() + 400);
+				background.setHeight(r.getHeight() + 400);
+				if (copied.getOpacity() > 0.0) {
+					copied.setLayoutX((r.getWidth() / 2.0) - 40.0);
+					copied.setOpacity(copied.getOpacity() - 0.008);
+				}
+			}
+		}.start();
+
+		loadBookmarks();
 		/*
 		 * JavaFX work to create the menu buttons: The dropdown, the new bookmark
 		 * button, and the help button. adds the last two buttons to a Vbox so it can be
@@ -73,40 +106,6 @@ public class SceneFX {
 				new Image(MENU_DROPDOWN_PASSIVE, false), new Image(MENU_DROPDOWN_HOVER, false),
 				ImageCondition.HOVERDEPENDENT, menuBar, true);
 		r.getChildren().add(menuDropdownButton.getNode());
-
-		/* Creates a transition to slowly pulse the background colour */
-		FillTransition ft = new FillTransition(Duration.seconds(7), background, Color.web("#3246a8"),
-				Color.web("#74248f"));
-		ft.setCycleCount(FillTransition.INDEFINITE);
-		ft.setAutoReverse(true);
-		ft.play();
-
-		/* Text title to notify the user when a url is copied. */
-		copied = new Text("URL Copied");
-		copied.setLayoutX((r.getWidth() / 2.0) - 40.0);
-		copied.setLayoutY(20);
-		copied.setOpacity(0.0);
-		copied.setFont(Font.font(16));
-		copied.setFill(Color.WHITE);
-		r.getChildren().add(copied);
-
-		/*
-		 * The animation timer constantly makes sure that the background is the size of
-		 * the scene. (Changing the fill of the scene caused issues.)
-		 */
-		new AnimationTimer() {
-			@Override
-			public void handle(long now) {
-				background.setWidth(r.getWidth() + 400);
-				background.setHeight(r.getHeight() + 400);
-				if (copied.getOpacity() > 0.0) {
-					copied.setLayoutX((r.getWidth() / 2.0) - 40.0);
-					copied.setOpacity(copied.getOpacity() - 0.008);
-				}
-			}
-		}.start();
-
-		loadBookmarks();
 	}
 
 	/*
