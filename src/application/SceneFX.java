@@ -123,6 +123,7 @@ public class SceneFX {
 			pane.getChildren().remove(hbox);
 		}
 		hbox = new HBox();
+		hbox.setMinHeight(600);
 		hbox.setLayoutX(100);
 		hbox.setLayoutY(30);
 		/* Sets an event so that when you scroll you can move the hbox to view all the categories but stops you from scrolling off the page. */
