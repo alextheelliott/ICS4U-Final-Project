@@ -21,8 +21,8 @@ public class Constants {
 		public static final String MENU_NEW_SITE_PASSIVE = "file:MenuNewSitePassive.png";
 		public static final String MENU_NEW_SITE_HOVER   = "file:MenuNewSiteHover.png";
 		
-		public static final String MENU_NEW_TASK_PASSIVE = "file:MenuNewTaskPassive.png";
-		public static final String MENU_NEW_TASK_HOVER   = "file:MenuNewTaskHover.png";
+		public static final String MENU_HELP_PASSIVE     = "file:MenuHelpPassive.png";
+		public static final String MENU_HELP_HOVER       = "file:MenuHelpHover.png";
 		
 		public static final String DROPDOWN_CLOSED       = "file:DropdownClosed.png";
 		public static final String DROPDOWN_OPEN         = "file:DropdownOpen.png";

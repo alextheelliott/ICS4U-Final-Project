@@ -95,8 +95,8 @@ public class SceneFX {
 		menuHelp.setPrefWidth(MENU_BUTTON_SIZE + MENU_TEXT_FIELD_WIDTH);
 		menuHelp.setPrefHeight(MENU_BUTTON_SIZE);
 		// Creates the object for the Help Scene and how to get to the scene
-		HelpButton menuHelpButton = new HelpButton(MENU_BUTTON_SIZE, 0.0, 0.0, new Image(MENU_DROPDOWN_PASSIVE, false),
-				new Image(MENU_DROPDOWN_HOVER, false));
+		HelpButton menuHelpButton = new HelpButton(MENU_BUTTON_SIZE, 0.0, 0.0, new Image(MENU_HELP_PASSIVE, false),
+				new Image(MENU_HELP_HOVER, false));
 		menuHelp.getChildren().add(menuHelpButton.getNode());
 
 		/* Adds all the buttons to the Vbox */
