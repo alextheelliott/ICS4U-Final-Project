@@ -152,6 +152,11 @@ public class Bookmark implements Comparable<Bookmark> {
 
     // Constructor (If the topic is empty gives it a default topic.)
     public Bookmark(String url, String topic, String title) {
+        // Removes all commas from text fields as this will mess up the CSV file
+        topic = topic.replaceAll(",","");
+        title = title.replaceAll(",","");
+        url = url.replaceAll(",","");
+
         this.url = url;
         this.topic = !topic.equals("") ? topic : "Misc";
         this.title = !title.equals("") ? title : url.replace("https://", "");

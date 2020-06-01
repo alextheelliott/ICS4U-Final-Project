@@ -311,9 +311,9 @@ public class SceneFX {
 		Text text = new Text();
 		text.setFont(Font.font("Gibson", FontWeight.BOLD, 30));
 		text.setFill(Color.web("2E3440"));
-		text.setX(100);
+		text.setX(200);
 		text.setY(50);
-		text.setText("gib ༼ つ ◕_◕ ༽つ help");
+		text.setText("Help");
 		r.getChildren().add(text);
 
 		text = new Text();
