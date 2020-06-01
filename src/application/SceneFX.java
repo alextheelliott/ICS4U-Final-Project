@@ -73,8 +73,6 @@ public class SceneFX {
 			}
 		}.start();
 
-		loadBookmarks();
-
 		/*
 		 * JavaFX work to create the menu buttons: The dropdown, the new bookmark
 		 * button, and the help button. adds the last two buttons to a Vbox so it can be
@@ -111,6 +109,8 @@ public class SceneFX {
 				new Image(MENU_DROPDOWN_PASSIVE, false), new Image(MENU_DROPDOWN_HOVER, false),
 				ImageCondition.HOVERDEPENDENT, menuBar, true);
 		r.getChildren().add(menuDropdownButton.getNode());
+
+		loadBookmarks();
 	}
 
 	/*

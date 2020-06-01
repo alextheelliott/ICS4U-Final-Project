@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import static application.Constants.DataConstants.*;
@@ -63,7 +62,6 @@ public class Bookmark implements Comparable<Bookmark> {
                     list.add(new Bookmark(data[0], "", data[1]));
                 } else if (data.length == 1) { // Only the URL is available, so topic is blank and title is set to URL
                     list.add(new Bookmark(data[0], "", data[0]));
-                    System.out.println(Arrays.toString(data));
                 }
                 line = br.readLine();
             }
@@ -152,10 +150,10 @@ public class Bookmark implements Comparable<Bookmark> {
         return true;
     }
 
-    // Constructor
+    // Constructor (If the topic is empty gives it a default topic.)
     public Bookmark(String url, String topic, String title) {
         this.url = url;
-        this.topic = topic;
-        this.title = title;
+        this.topic = !topic.equals("") ? topic : "Misc";
+        this.title = !title.equals("") ? title : url.replace("https://", "");
     }
 }
