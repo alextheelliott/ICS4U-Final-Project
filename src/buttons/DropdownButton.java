@@ -27,6 +27,7 @@ public class DropdownButton extends Buttons {
 		state = false;
 		child = cld;
 		child.setVisible(this.getState());
+		setImage();
 	}
 	
 	/* Note:
@@ -38,6 +39,7 @@ public class DropdownButton extends Buttons {
 		state = dfState;
 		child = cld;
 		child.setVisible(this.getState());
+		setImage();
 	}
 
 	/* Adds functionality to use the state for whether it is dropped down or not. */
