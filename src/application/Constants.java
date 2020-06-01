@@ -7,6 +7,7 @@ public class Constants {
 	public static class DataConstants {
 		public static final String DATA_FILE             = "data.csv";
 	}
+	
 	public static class LayoutConstants {
 		public static final double STAGE_WIDTH           = 800.0;
 		public static final double STAGE_HEIGHT          = 600.0;
