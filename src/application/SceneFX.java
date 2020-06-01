@@ -194,7 +194,7 @@ public class SceneFX {
 		texts.get(1).setFont(Font.font(16));
 		texts.get(1).setFill(Color.WHITE);
 
-		texts.get(2).setText("Website URL:*");
+		texts.get(2).setText("Website URL (Full URL including https://):*");
 		texts.get(2).setX(30);
 		texts.get(2).setY(200);
 		texts.get(2).setFont(Font.font(16));
