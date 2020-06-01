@@ -7,8 +7,8 @@ import buttons.MenuButton;
 
 import static application.Constants.LayoutConstants.*;
 
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FillTransition;
@@ -25,9 +25,13 @@ import javafx.scene.shape.Rectangle;
 
 public class SceneFX {
 
+	/* Declares the main pane, the copied text, and the menu. */
 	private static Pane pane;
 
 	public static Text copied;
+
+	public static VBox menuBar;
+	public static DropdownButton menuDropdownButton;
 
 	public static void loadMainSceneFX(Pane r) {
 		pane = r;
@@ -70,12 +74,13 @@ public class SceneFX {
 		}.start();
 
 		loadBookmarks();
+
 		/*
 		 * JavaFX work to create the menu buttons: The dropdown, the new bookmark
 		 * button, and the help button. adds the last two buttons to a Vbox so it can be
 		 * hidden and shown with the dropdown button.
 		 */
-		VBox menuBar = new VBox();
+		menuBar = new VBox();
 		menuBar.setMinWidth(0.0);
 		menuBar.setPrefWidth(MENU_BUTTON_SIZE);
 		menuBar.setMaxWidth(MENU_BUTTON_SIZE + MENU_TEXT_FIELD_WIDTH);
@@ -102,7 +107,7 @@ public class SceneFX {
 		/* Adds all the buttons to the Vbox */
 		menuBar.getChildren().addAll(menuNewSite, menuHelp);
 
-		DropdownButton menuDropdownButton = new DropdownButton(MENU_BUTTON_SIZE, 0.0, 0.0,
+		menuDropdownButton = new DropdownButton(MENU_BUTTON_SIZE, 0.0, 0.0,
 				new Image(MENU_DROPDOWN_PASSIVE, false), new Image(MENU_DROPDOWN_HOVER, false),
 				ImageCondition.HOVERDEPENDENT, menuBar, true);
 		r.getChildren().add(menuDropdownButton.getNode());
@@ -155,10 +160,14 @@ public class SceneFX {
 			}
 			hbox.getChildren().add(vbox);
 		}
+
+		/* Brings the menu in front of the bookmarks */
+		menuBar.toFront();
+		menuDropdownButton.getNode().toFront();
 	}
 
 	/*
-	 * Creates the scene for adding a new bookmark. Adds all the titles and stuff.
+	 * Creates the scene for adding a new bookmark. Adds all the titles and fields.
 	 */
 	public static void loadNewBookmarkSceneFX(Pane r) {
 		Rectangle background = new Rectangle();
@@ -226,18 +235,24 @@ public class SceneFX {
 		 */
 		buttons.get(0).setOnAction(event -> {
 			boolean canSubmit = true;
-			Pattern pattern = Pattern.compile("((http:\\/\\/|https:\\/\\/)?(www.)?(([a-zA-Z0-9-]){2,}\\.){1,4}([a-zA-Z]){2,6}(\\/([a-zA-Z-_\\/\\.0-9#:?=&;,]*)?)?)");
 			//Checks if field is empty
 			if (textFields.get(2).getText().replace(" ", "").equals("")) {
 				textFields.get(2).setPromptText("THIS NEEDS TO BE FILLED");
 				canSubmit = false;
 			}
 			// Checks if field is a valid url
-			// Source: https://youtu.be/0sn3nobe6YE
-			else if (pattern.matcher(textFields.get(2).getText()).find()) {
-				textFields.get(2).setText("");
-				textFields.get(2).setPromptText("THIS NEEDS TO BE A VALID URL");
-				canSubmit = false;
+			// Source: https://stackoverflow.com/questions/3931696/how-to-verify-if-a-string-in-java-is-a-valid-url
+			else {
+				//Attempts to create a url and if it gives an error we know it is not an URL
+				try {
+					@SuppressWarnings("unused")
+					URL urlAttempt = new URL(textFields.get(2).getText());
+				} catch (Exception e) {
+					textFields.get(2).setText("");
+					textFields.get(2).setPromptText("THIS NEEDS TO BE A VALID URL");
+					canSubmit = false;
+				}
+				
 			}
 			// Submits the fields to the csv.
 			if (canSubmit) {
