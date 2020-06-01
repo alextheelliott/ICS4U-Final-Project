@@ -157,6 +157,7 @@ public class Bookmark implements Comparable<Bookmark> {
         title = title.replaceAll(",","");
         url = url.replaceAll(",","");
 
+        // Sest topic to misc if blank, sets title to url minus the https:// if blank
         this.url = url;
         this.topic = !topic.equals("") ? topic : "Misc";
         this.title = !title.equals("") ? title : url.replace("https://", "");
